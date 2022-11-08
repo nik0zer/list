@@ -1,18 +1,23 @@
 #ifndef LIST_H
 #define LIST_H
 
-struct list_node
+enum ERRORS
 {
-    void* node_val;
-    int next_node;
-    int prev_node;
+    NO_ERRORS = 0,
+    NULL_POINTER = 1,
+    ALLOC_MEMORY_ERRORY = 2
 };
 
 struct list
 {
-    list_node* nodes_arr;
+    void* values_arr;
+    int* next_ptr_arr;
+    int* prev_ptr_arr;
     int size_of_list;
-    int head_num;
+    int size_of_mem;
+    int head_ptr;
+    int free_ptr;
+    int tail_ptr;
 };
 
 
