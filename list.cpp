@@ -1,7 +1,12 @@
 #include "list.h"
 #include <stdlib.h>
 
-#define START_SIZE_OF_LIST 512
+
+enum
+{
+    START_SIZE_OF_LIST =  512,
+    INVALID_PTR = -1
+};
 
 int list_init(list* my_list, int elem_size)
 {
@@ -30,10 +35,10 @@ int list_init(list* my_list, int elem_size)
     for(int i = my_list->free_ptr; i < START_SIZE_OF_LIST; i++)
     {
         my_list->next_ptr_arr[i] = i + 1;
-        my_list->prev_ptr_arr[i] = -1;
+        my_list->prev_ptr_arr[i] = INVALID_PTR;
     }
 
-    my_list->next_ptr_arr[START_SIZE_OF_LIST - 1] = -1;
+    my_list->next_ptr_arr[START_SIZE_OF_LIST - 1] = INVALID_PTR;
 
     my_list->next_ptr_arr[my_list->head_ptr] = my_list->head_ptr;
     my_list->prev_ptr_arr[my_list->head_ptr] = my_list->head_ptr;
@@ -41,3 +46,43 @@ int list_init(list* my_list, int elem_size)
     return NO_ERRORS;
 }
 
+int list_insert(list* my_list, int insert_poz, int* elem_poz)
+{
+    if(my_list == NULL)
+    {
+        return NULL_POINTER;
+    }
+
+    if(my_list->prev_ptr_arr[insert_poz] == INVALID_PTR)
+    {
+        return INVALID_INSERT_POZ;
+    }
+
+}
+
+
+
+int list_destroy(list* my_list)
+{
+    if(my_list == NULL)
+    {
+        return NULL_POINTER;
+    }
+
+    if(my_list->values_arr != NULL)
+    {
+        free(my_list->values_arr);
+    }
+
+    if(my_list->next_ptr_arr != NULL)
+    {
+        free(my_list->next_ptr_arr);
+    }
+
+    if(my_list->prev_ptr_arr != NULL)
+    {
+        free(my_list->prev_ptr_arr);
+    }
+
+    return NO_ERRORS;
+}

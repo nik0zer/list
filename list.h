@@ -5,7 +5,9 @@ enum ERRORS
 {
     NO_ERRORS = 0,
     NULL_POINTER = 1,
-    ALLOC_MEMORY_ERRORY = 2
+    ALLOC_MEMORY_ERRORY = 2,
+    INVALID_INSERT_POZ = 3,
+    
 };
 
 struct list
@@ -19,6 +21,10 @@ struct list
     int free_ptr;
     int tail_ptr;
 };
+
+int list_init(list* my_list, int elem_size);
+
+int list_destroy(list* my_list);
 
 
 
