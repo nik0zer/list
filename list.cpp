@@ -9,6 +9,9 @@ enum
     INVALID_PTR = -1,
     VIRT_ELEM = 0,
     START_FREE_PTR = 1,
+    LIST_MULTPL_CONSTANT = 2,
+    LIST_DIVIDE_CONSTANT = 2,
+    LIST_DIVIDE_TRIGGER = 4,
 };
 
 int list_init(list* my_list, int elem_size)
@@ -85,7 +88,11 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
     }
 
     int free_ptr;
+
     free_ptr = my_list->free_ptr;
+
+
+
     my_list->free_ptr = my_list->next_ptr_arr[my_list->free_ptr];
 
     int offset = free_ptr * my_list->elem_size;
@@ -104,6 +111,24 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
 
     *elem_poz = free_ptr;
     my_list->size_of_list++;
+
+    if(my_list->size_of_mem == my_list->size_of_list)
+    {
+        my_list->values_arr = realloc(my_list->values_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+        my_list->next_ptr_arr = (int*)realloc(my_list->next_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+        my_list->prev_ptr_arr = (int*)realloc(my_list->prev_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+
+        if(my_list->values_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
+        {
+            return ALLOC_MEMORY_ERRORY;
+        }
+
+        my_list->size_of_mem *= LIST_MULTPL_CONSTANT;
+
+        my_list->free_ptr = my_list->size_of_list;
+    }
+
+
 
     return NO_ERRORS;
 
