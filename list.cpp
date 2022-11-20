@@ -4,7 +4,7 @@
 
 enum
 {
-    START_SIZE_OF_MEM =  512,
+    START_SIZE_OF_MEM =  4,
     START_SIZE_OF_LIST =  1,
     INVALID_PTR = -1,
     VIRT_ELEM = 0,
@@ -45,8 +45,6 @@ int list_init(list* my_list, int elem_size)
         my_list->prev_ptr_arr[i] = INVALID_PTR;
     }
 
-    my_list->next_ptr_arr[START_SIZE_OF_MEM - 1] = INVALID_PTR;
-
     my_list->next_ptr_arr[my_list->head_ptr] = my_list->head_ptr;
     my_list->prev_ptr_arr[my_list->head_ptr] = my_list->head_ptr;
 
@@ -68,7 +66,27 @@ int list_int_text_dump(list* my_list, FILE* out_file)
     for(int i = 0; i < my_list->size_of_mem; i++)
     {
         offset = i * my_list->elem_size;
-        fprintf(out_file, "%8d  %8d  ", i, *((int*)(my_list->values_arr + offset)));
+        fprintf(out_file, "%8d  %12d  ", i, *((int*)(my_list->values_arr + offset)));
+        fprintf(out_file, "%8d  ", my_list->next_ptr_arr[i]);
+        fprintf(out_file, "%8d  ", my_list->prev_ptr_arr[i]);
+        fprintf(out_file, "\n");
+    }
+}
+
+int list_text_dump(list* my_list, FILE* out_file)
+{
+    int offset = 0;
+
+    fprintf(out_file, "head_ptr: %d\n", my_list->head_ptr);
+    fprintf(out_file, "tail_ptr: %d\n", my_list->tail_ptr);
+    fprintf(out_file, "free_ptr: %d\n", my_list->free_ptr);
+    fprintf(out_file, "number of elements in list: %d\n", my_list->size_of_list);
+    fprintf(out_file, "number of alloc memory in list: %d\n", my_list->size_of_mem);
+
+    for(int i = 0; i < my_list->size_of_mem; i++)
+    {
+        offset = i * my_list->elem_size;
+        fprintf(out_file, "%8d  %X  ", i, *((int*)(my_list->values_arr + offset)));
         fprintf(out_file, "%8d  ", my_list->next_ptr_arr[i]);
         fprintf(out_file, "%8d  ", my_list->prev_ptr_arr[i]);
         fprintf(out_file, "\n");
@@ -87,11 +105,33 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
         return INVALID_INSERT_POZ;
     }
 
+    if(my_list->size_of_mem - 1 == my_list->size_of_list)
+    {
+        my_list->values_arr = realloc(my_list->values_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+        my_list->next_ptr_arr = (int*)realloc(my_list->next_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+        my_list->prev_ptr_arr = (int*)realloc(my_list->prev_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+
+        if(my_list->values_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
+        {
+            return ALLOC_MEMORY_ERRORY;
+        }
+
+        my_list->size_of_mem *= LIST_MULTPL_CONSTANT;
+
+        my_list->free_ptr = my_list->size_of_list;
+
+        for(int i = my_list->free_ptr; i < my_list->size_of_mem; i++)
+        {
+            my_list->next_ptr_arr[i] = i + 1;
+            my_list->prev_ptr_arr[i] = INVALID_PTR;
+        }
+
+
+    }
+
     int free_ptr;
 
     free_ptr = my_list->free_ptr;
-
-
 
     my_list->free_ptr = my_list->next_ptr_arr[my_list->free_ptr];
 
@@ -110,29 +150,10 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
     }
 
     *elem_poz = free_ptr;
+
     my_list->size_of_list++;
 
-    if(my_list->size_of_mem == my_list->size_of_list)
-    {
-        my_list->values_arr = realloc(my_list->values_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
-        my_list->next_ptr_arr = (int*)realloc(my_list->next_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
-        my_list->prev_ptr_arr = (int*)realloc(my_list->prev_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
-
-        if(my_list->values_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
-        {
-            return ALLOC_MEMORY_ERRORY;
-        }
-
-        my_list->size_of_mem *= LIST_MULTPL_CONSTANT;
-
-        my_list->free_ptr = my_list->size_of_list;
-    }
-
-
-
     return NO_ERRORS;
-
-
 
 }
 

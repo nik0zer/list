@@ -33,6 +33,8 @@ int list_int_text_dump(list* my_list, FILE* out_file);
 
 int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem);
 
+int list_text_dump(list* my_list, FILE* out_file);
+
 
 
 

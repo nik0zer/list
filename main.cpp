@@ -12,16 +12,20 @@ int main(int argc, char** argv)
 
     FILE* out_file = fopen(argv[1], "w");
 
-    int a = 5;
+    int a = 0;
     int poz = 0;
 
-    list_insert_after(&my_list, my_list.tail_ptr, &poz, &a);
-    a = 6;
-    list_insert_after(&my_list, my_list.tail_ptr, &poz, &a);
-    a++;
-    list_insert_after(&my_list, my_list.tail_ptr, &poz, &a);
+    
+
+    for(int i = 0; i < 33; i++)
+    {
+        list_insert_after(&my_list, my_list.tail_ptr, &poz, &a);
+        a++;
+    }
 
     list_int_text_dump(&my_list, out_file);
+    list_text_dump(&my_list, out_file);
+
 
     
 
