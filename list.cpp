@@ -174,7 +174,7 @@ int list_return_elem(list* my_list, void* return_elem, int poz_of_elem)
 
 int list_delete_elem(list* my_list, void* return_elem, int poz_of_elem)
 {
-    if(poz_of_elem >= my_list->size_of_mem || my_list->prev_ptr_arr[poz_of_elem] == INVALID_PTR)
+    if(poz_of_elem >= my_list->size_of_mem || my_list->prev_ptr_arr[poz_of_elem] == INVALID_PTR || poz_of_elem == VIRT_ELEM)
     {
         return INVALID_ELEM_POZ;
     }
@@ -194,12 +194,6 @@ int list_delete_elem(list* my_list, void* return_elem, int poz_of_elem)
     if(poz_of_elem == my_list->tail_ptr)
     {
         my_list->tail_ptr = prev_elem;
-    }
-
-
-    if(my_list->size_of_list <= my_list->size_of_mem / LIST_DIVIDE_TRIGGER)
-    {
-        
     }
 
     return NO_ERRORS;
