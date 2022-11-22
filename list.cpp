@@ -21,14 +21,14 @@ int list_init(list* my_list, int elem_size)
         return NULL_POINTER;
     }
 
-    my_list->values_arr = calloc(START_SIZE_OF_MEM, elem_size);
+    my_list->elem_arr = calloc(START_SIZE_OF_MEM, elem_size);
     my_list->next_ptr_arr = (int*)calloc(START_SIZE_OF_MEM, sizeof(int));
     my_list->prev_ptr_arr = (int*)calloc(START_SIZE_OF_MEM, sizeof(int));
     my_list->size_of_list = 0;
     my_list->size_of_mem = 0;
     my_list->elem_size = elem_size;
 
-    if(my_list->values_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
+    if(my_list->elem_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
     {
         return ALLOC_MEMORY_ERRORY;
     }
@@ -66,7 +66,7 @@ int list_int_text_dump(list* my_list, FILE* out_file)
     for(int i = 0; i < my_list->size_of_mem; i++)
     {
         offset = i * my_list->elem_size;
-        fprintf(out_file, "%8d  %12d  ", i, *((int*)(my_list->values_arr + offset)));
+        fprintf(out_file, "%8d  %12d  ", i, *((int*)(my_list->elem_arr + offset)));
         fprintf(out_file, "%8d  ", my_list->next_ptr_arr[i]);
         fprintf(out_file, "%8d  ", my_list->prev_ptr_arr[i]);
         fprintf(out_file, "\n");
@@ -86,7 +86,7 @@ int list_text_dump(list* my_list, FILE* out_file)
     for(int i = 0; i < my_list->size_of_mem; i++)
     {
         offset = i * my_list->elem_size;
-        fprintf(out_file, "%8d  %X  ", i, *((int*)(my_list->values_arr + offset)));
+        fprintf(out_file, "%8d  %X  ", i, *((int*)(my_list->elem_arr + offset)));
         fprintf(out_file, "%8d  ", my_list->next_ptr_arr[i]);
         fprintf(out_file, "%8d  ", my_list->prev_ptr_arr[i]);
         fprintf(out_file, "\n");
@@ -100,18 +100,18 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
         return NULL_POINTER;
     }
 
-    if(my_list->prev_ptr_arr[insert_poz] == INVALID_PTR)
+    if(insert_poz >= my_list->size_of_mem || my_list->prev_ptr_arr[insert_poz] == INVALID_PTR)
     {
-        return INVALID_INSERT_POZ;
+        return INVALID_ELEM_POZ;
     }
 
     if(my_list->size_of_mem - 1 == my_list->size_of_list)
     {
-        my_list->values_arr = realloc(my_list->values_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
+        my_list->elem_arr = realloc(my_list->elem_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
         my_list->next_ptr_arr = (int*)realloc(my_list->next_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
         my_list->prev_ptr_arr = (int*)realloc(my_list->prev_ptr_arr, my_list->elem_size * my_list->size_of_mem * LIST_MULTPL_CONSTANT);
 
-        if(my_list->values_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
+        if(my_list->elem_arr == NULL || my_list->prev_ptr_arr == NULL || my_list->next_ptr_arr == NULL)
         {
             return ALLOC_MEMORY_ERRORY;
         }
@@ -137,7 +137,7 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
 
     int offset = free_ptr * my_list->elem_size;
 
-    memcpy(my_list->values_arr + offset, elem, my_list->elem_size);
+    memcpy(my_list->elem_arr + offset, elem, my_list->elem_size);
 
     my_list->prev_ptr_arr[free_ptr] = insert_poz;
     my_list->next_ptr_arr[free_ptr] = my_list->next_ptr_arr[insert_poz];
@@ -157,6 +157,21 @@ int list_insert_after(list* my_list, int insert_poz, int* elem_poz, void* elem)
 
 }
 
+int list_return_elem(list* my_list, void* return_elem, int poz_of_elem)
+{
+    if(poz_of_elem >= my_list->size_of_mem || my_list->prev_ptr_arr[poz_of_elem] == INVALID_PTR)
+    {
+        return INVALID_ELEM_POZ;
+    }
+
+    int offset = poz_of_elem * my_list->elem_size;
+
+    memcpy(return_elem, my_list->elem_arr + offset, my_list->elem_size);
+
+
+    return NO_ERRORS;
+}
+
 
 
 int list_destroy(list* my_list)
@@ -166,9 +181,9 @@ int list_destroy(list* my_list)
         return NULL_POINTER;
     }
 
-    if(my_list->values_arr != NULL)
+    if(my_list->elem_arr != NULL)
     {
-        free(my_list->values_arr);
+        free(my_list->elem_arr);
     }
 
     if(my_list->next_ptr_arr != NULL)
