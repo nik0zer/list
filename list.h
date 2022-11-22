@@ -37,6 +37,10 @@ int list_text_dump(list* my_list, FILE* out_file);
 
 int list_return_elem(list* my_list, void* return_elem, int poz_of_elem);
 
+int list_delete_elem(list* my_list, void* return_elem, int poz_of_elem);
+
+int list_delete_elem(list* my_list, void* return_elem, int poz_of_elem);
+
 
 
 

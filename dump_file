@@ -1,9 +1,9 @@
 head_ptr: 0
-tail_ptr: 33
-free_ptr: 34
-number of elements in list: 34
+tail_ptr: 21
+free_ptr: 20
+number of elements in list: 35
 number of alloc memory in list: 64
-       0             0         1        33  
+       0             0         1        21  
        1             1         2         0  
        2             2         3         1  
        3             3         4         2  
@@ -22,10 +22,10 @@ number of alloc memory in list: 64
       16            16        17        15  
       17            17        18        16  
       18            18        19        17  
-      19            19        20        18  
-      20            20        21        19  
-      21            21        22        20  
-      22            22        23        21  
+      19            19        22        18  
+      20            20        33        -1  
+      21            34         0        32  
+      22            22        23        19  
       23            23        24        22  
       24            24        25        23  
       25            25        26        24  
@@ -35,8 +35,8 @@ number of alloc memory in list: 64
       29            29        30        28  
       30            30        31        29  
       31            31        32        30  
-      32            32        33        31  
-      33            33         0        32  
+      32            32        21        31  
+      33            33        34        -1  
       34   -1094795586        35        -1  
       35   -1094795586        36        -1  
       36   -1094795586        37        -1  
@@ -67,72 +67,3 @@ number of alloc memory in list: 64
       61   -1094795586        62        -1  
       62   -1094795586        63        -1  
       63   -1094795586        64        -1  
-head_ptr: 0
-tail_ptr: 33
-free_ptr: 34
-number of elements in list: 34
-number of alloc memory in list: 64
-       0  0         1        33  
-       1  1         2         0  
-       2  2         3         1  
-       3  3         4         2  
-       4  4         5         3  
-       5  5         6         4  
-       6  6         7         5  
-       7  7         8         6  
-       8  8         9         7  
-       9  9        10         8  
-      10  A        11         9  
-      11  B        12        10  
-      12  C        13        11  
-      13  D        14        12  
-      14  E        15        13  
-      15  F        16        14  
-      16  10        17        15  
-      17  11        18        16  
-      18  12        19        17  
-      19  13        20        18  
-      20  14        21        19  
-      21  15        22        20  
-      22  16        23        21  
-      23  17        24        22  
-      24  18        25        23  
-      25  19        26        24  
-      26  1A        27        25  
-      27  1B        28        26  
-      28  1C        29        27  
-      29  1D        30        28  
-      30  1E        31        29  
-      31  1F        32        30  
-      32  20        33        31  
-      33  21         0        32  
-      34  BEBEBEBE        35        -1  
-      35  BEBEBEBE        36        -1  
-      36  BEBEBEBE        37        -1  
-      37  BEBEBEBE        38        -1  
-      38  BEBEBEBE        39        -1  
-      39  BEBEBEBE        40        -1  
-      40  BEBEBEBE        41        -1  
-      41  BEBEBEBE        42        -1  
-      42  BEBEBEBE        43        -1  
-      43  BEBEBEBE        44        -1  
-      44  BEBEBEBE        45        -1  
-      45  BEBEBEBE        46        -1  
-      46  BEBEBEBE        47        -1  
-      47  BEBEBEBE        48        -1  
-      48  BEBEBEBE        49        -1  
-      49  BEBEBEBE        50        -1  
-      50  BEBEBEBE        51        -1  
-      51  BEBEBEBE        52        -1  
-      52  BEBEBEBE        53        -1  
-      53  BEBEBEBE        54        -1  
-      54  BEBEBEBE        55        -1  
-      55  BEBEBEBE        56        -1  
-      56  BEBEBEBE        57        -1  
-      57  BEBEBEBE        58        -1  
-      58  BEBEBEBE        59        -1  
-      59  BEBEBEBE        60        -1  
-      60  BEBEBEBE        61        -1  
-      61  BEBEBEBE        62        -1  
-      62  BEBEBEBE        63        -1  
-      63  BEBEBEBE        64        -1  

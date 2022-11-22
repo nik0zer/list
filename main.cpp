@@ -25,12 +25,29 @@ int main(int argc, char** argv)
 
     int n = 0;
 
+    list_delete_elem(&my_list, &n, my_list.tail_ptr);
+
+    printf("%d\n", n);
+
     list_return_elem(&my_list, &n, 20);
 
-    printf("%d", n);
+    printf("%d\n", n);
+
+    list_delete_elem(&my_list, &n, 20);
+
+    printf("%d\n", n);
+
+    list_delete_elem(&my_list, &n, 21);
+
+    printf("%d\n", n);
+
+    list_insert_after(&my_list, my_list.tail_ptr, &poz, &a);
+
+    
 
     list_int_text_dump(&my_list, out_file);
-    list_text_dump(&my_list, out_file);
+
+    
 
 
     
