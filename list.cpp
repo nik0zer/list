@@ -172,6 +172,39 @@ int list_return_elem(list* my_list, void* return_elem, int poz_of_elem)
     return NO_ERRORS;
 }
 
+int list_delete_elem(list* my_list, void* return_elem, int poz_of_elem)
+{
+    if(poz_of_elem >= my_list->size_of_mem || my_list->prev_ptr_arr[poz_of_elem] == INVALID_PTR)
+    {
+        return INVALID_ELEM_POZ;
+    }
+
+    int prev_elem = my_list->prev_ptr_arr[poz_of_elem];
+    int next_elem = my_list->next_ptr_arr[poz_of_elem];
+    int offset = poz_of_elem * my_list->elem_size;
+
+    memcpy(return_elem, my_list->elem_arr + offset, my_list->elem_size);
+    my_list->next_ptr_arr[prev_elem] = my_list->next_ptr_arr[poz_of_elem];
+    my_list->prev_ptr_arr[next_elem] = my_list->prev_ptr_arr[poz_of_elem];
+
+    my_list->prev_ptr_arr[poz_of_elem] = INVALID_PTR;
+    my_list->next_ptr_arr[poz_of_elem] = my_list->free_ptr;
+    my_list->free_ptr = poz_of_elem;
+
+    if(poz_of_elem == my_list->tail_ptr)
+    {
+        my_list->tail_ptr = prev_elem;
+    }
+
+
+    if(my_list->size_of_list <= my_list->size_of_mem / LIST_DIVIDE_TRIGGER)
+    {
+        
+    }
+
+    return NO_ERRORS;
+}
+
 
 
 int list_destroy(list* my_list)
