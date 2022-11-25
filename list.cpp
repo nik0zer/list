@@ -199,8 +199,6 @@ int list_delete_elem(list* my_list, void* return_elem, int poz_of_elem)
     return NO_ERRORS;
 }
 
-
-
 int list_destroy(list* my_list)
 {
     if(my_list == NULL)
